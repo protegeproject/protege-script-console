@@ -7,7 +7,7 @@
     <description>A Protege Tab providing a scripting console that supports BSF-compliant languages for interacting with an ontology.</description>
   <!-- set global properties for this build -->
   <property name="projectName" value="ProtegeScript"/>
-  <property name="version" value="0.17"/>
+  <property name="version" value="0.18"/>
   <property name="extendedProjectName" value="${projectName}-${version}"/>
   <property name="packageName" value="script"/>
   <!-- <property name="PROTEGE_HOME" location="/home/dameron/protege"/> -->
