@@ -1,0 +1,151 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Prot&eacute;g&eacute; Script Console</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="keywords" content="ontology, knowledge representation, owl, Prot&eacute;g&eacute;, script, macro, python, perl, beanshell, groovy, ruby, bsh, bsf, bean scripting framework" />
+    <link rel="meta" title="DOAP" type="application/rdf+xml" href="doap.rdf" />
+    <link rel="author" type="text/html" title="Author" href="../index.html" />
+    <link rel="chapter" title="Description" href="#sec:description"/>
+    <link rel="chapter" title="Tutorial" href="http://smi-web.stanford.edu/people/dameron/jot/tutorial/index.html"/>
+    <link rel="chapter" title="Wiki" href="http://protege.cim3.net/cgi-bin/wiki.pl?ProtegeScriptTab"/>
+    <link rel="chapter" title="Download" href="#sec:download"/>
+    <link rel="chapter" title="Installation" href="#sec:installation"/>
+    <link rel="chapter" title="Licence" href="#sec:licence"/>
+    <link rel="chapter" title="Credit" href="#sec:credit"/>
+    <link rel="home" type="text/html" title="Olivier's homepage" href="../index.html" />
+    <link rel="up" type="text/html" title="Up" href="../index.html" />
+  </head>
+    
+    <body lang="en" bgcolor="#ffffff">
+      <center>
+	<h1>Prot&eacute;g&eacute; Script Console</h1>
+	<h2>A script console for editing macros for Prot&eacute;g&eacute;</h2>
+	<hr width="50%" />
+      </center>
+
+      <h3><a name="sec:description">Description</a></h3>
+      <p>The script console is a tab for the <a href="http://protege.stanford.edu">Prot&eacute;g&eacute;</a> ontology development platform. It provides a scripting environment for manipulating an ontology. It is compatible with <em>both</em> the traditionnal Prot&eacute;g&eacute; environment and with the <a href="http://protege.stanford.edu/plugins/owl/">OWL Plugin</a>. It can be used to</p>
+    <ul>
+      <li>reuse some existing functions from other scripts or java classes;</li>
+      <li>write your own scripts for designing an intermediate representation of an ontology;</li>
+      <li>define your own functions for performing tasks such as reasoning or consistency checking.</li>
+    </ul>
+    <center>
+      <img src="./image/script06exampleRuby.png" alt="screnneshot of the Prot&eacute;g&eacute; scripting console" />
+    </center>
+
+    <h4>Supported languages</h4>
+    <p>The script console relies on Apache's <a href="http://jakarta.apache.org/bsf/">Bean Scripting Framework (BSF)</a>. Therefore, any BSF-compliant script language can easily be integrated. So far, the following languages are supported:</p>
+    <ul>
+      <li><a href="http://www.jython.org/">Jython</a> (a Java implementation of <a href="http://www.python.org/">Python</a>)</li>
+      <li><a href="http://www.perl.org/">Perl</a></li>
+      <li><a href="http://www.beanshell.org/home.html">Beanshell</a></li>
+      <li><a href="http://groovy.codehaus.org/">Groovy</a> (Partially)</li>
+      <li><a href="http://jruby.sourceforge.net/">JRuby</a> (Experimental Java implementation of <a href="http://ruby-lang.org/en/">Ruby</a>)</li>
+    </ul>
+
+    <h4>Resources</h4>
+    <ul>
+      <li>A tutorial will soon be online here. Untill then, checkout the <a href="http://smi-web.stanford.edu/people/dameron/jot/tutorial/index.html">JOT Tutorial</a>, it is pretty similar.</li>
+      <li>The <a href="http://protege.cim3.net/cgi-bin/wiki.pl?ProtegeScriptTab">Prot&eacute;g&eacute; Script Tab <b>Wiki</b></a> page has been created on Prot&eacute;g&eacute;'s Wiki
+	<ul>
+	  <li><a href="http://protege.cim3.net/cgi-bin/wiki.pl?ProtegeScriptTabFAQmain">FAQ</a></li>
+	  <li><a href="http://protege.cim3.net/cgi-bin/wiki.pl?ProtegeScriptTabRepositoryMain">Sample scripts</a></li>
+	  <li><a href="http://protege.cim3.net/cgi-bin/wiki.pl?ProtegeScriptTabFAQtodo">Todo</a></li>
+	</ul>
+      </li>
+    </ul>
+
+
+    <h3><a name="sec:download">Download</a></h3>
+    <ul>
+      <li>Get <a href="download/ProtegeScript-0.15.tar.gz">binaries (build 0.15)</a>. Requires Prot&eacute;g&eacute; 2.1 beta (build 173) or above. It most probably also works with previous versions too...</li>
+      <li>Get <a href="download/ProtegeScript-0.15-src.jar">sources</a> (and ant script).</li>
+      <li>Get <a href="download/ProtegeScript-thirdParty.jar">third party libraries</a> (necessary for compiling the source).</li>
+      <li>Get <a href="download/ProtegeScript-0.15-doc.jar">javadoc</a>.</li>
+    </ul>
+    <p>The subversion repository for this project is <tt>http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk/</tt>, and you can also use <a href="http://smi-protege.stanford.edu/svn/protege-script-console/trunk">this nice display</a>.</p>
+
+
+    <h3><a name="sec:installation">Installation</a></h3>
+    <ol>
+      <li><a href="#sec:download">Download</a> the stuff;</li>
+      <li>Save it in the <tt>plugins</tt> subdirectory of your Prot&eacute;g&eacute; installation;</li>
+      <li>Unzip it. It will create a <tt>edu.stanford.smi.protege.script</tt> with everything you need in it;</li>
+      <li>Open a project;</li>
+      <li>In the "Project" menu and choose "Configure...";</li>
+      <li>In the menu, select "ProtegeScriptTab".</li>
+    </ol>
+    <center>
+      <img src="./image/script01configurationMenu.png" alt="configuration menu for enabling the Prot&eacute;g&eacute; scripting console" />
+    </center>
+
+    <h3><a name="sec:licence">Licence</a></h3>
+    <p>The Prot&eacute;g&eacute; Script Console plugin is released under the <a href="http://www.mozilla.org/MPL">Mozilla Public  License</a>. It is provided <cite>as is</cite>. Your are free to use it, to distribute it and to modify it. Feedback is welcome.</p>
+
+
+    <h3><a name="sec:credit">Credit</a></h3>
+    <p>The Prot&eacute;g&eacute; Script Console plugin relies on third-party software components.</p>
+    <ul>
+      <li><a href="http://jakarta.apache.org/bsf/">Bean Scripting Framework</a> (BSF) provides scripting language support within Java applications, and access to Java objects and methods;</li>
+      <li><a href="http://www.jython.org">Jython</a> is a Java implementation of <a href="http://www.python.org">Python</a>;</li>
+      <li><a href="http://bsfperl.sourceforge.net/">BSFPerl</a> is a BSF-compliant Java implementation of <a href="http://www.perl.org/">Perl</a>;</li>
+      <li><a href="http://www.beanshell.org/home.html">Beanshell</a> is a  BSF-compliant Java implementation of a Java-like scripting language;</li>
+      <li><a href="http://groovy.codehaus.org/">Groovy</a>;</li>
+      <li><a href="http://jruby.sourceforge.net/">JRuby</a> is a BSF-compliant Java implementation of <a href="http://ruby-lang.org/en/">Ruby</a>.</li>
+    </ul>
+
+
+    <h3>Changelogs</h3>
+
+    <h4>Version 0.15</h4>
+    <ul>
+      <li>Fixed missing icon.</li>
+    </ul>
+
+    <h4>Version 0.14</h4>
+    <ul>
+      <li>Fixed the backspace that was always erasing the last character in the command, not the character before the caret.</li>
+    </ul>
+
+    <h4>Version 0.13</h4>
+    <ul>
+      <li>Fixed a minor bug that made the left arrow to behave as backspace.</li>
+    </ul>
+
+    <h4>Version 0.12</h4>
+    <ul>
+      <!-- <li>Fixed stdout capture</li> -->
+      <li>If the system property <tt>edu.stanford.smi.protege.script.defaultScriptLanguage</tt> is set, then it is used to determine the default scripting language. Possible values are: "jython", "perl", "beanshell", "groovy", "jruby". The default value is "jython"
+      <li>If the system property <tt>edu.stanford.smi.protege.script.defaultScriptPath</tt> is set to a value that actually points to a file, then this file is executed on startup</li>
+      <li>Hitting backspace key deletes one character or one indentation level</li>
+      <li>Hitting enter on a line only composed of spaces brings the cursor at the beginning of the new line (no more indentation)</li>
+    </ul>
+
+    <h4>Version 0.11</h4>
+    <ul>
+      <li>Tentative fix of the stdout capture and redirection to the console</li>
+      <li>Updated groovy to 1.0-beta9</li>
+      <li>Updated jruby to 0.8.0 (Full support for Ruby 1.8.x grammar)</li>
+      <li>Improved doap file (default namespace + download URL + minor cleaning)</li>
+    </ul>
+
+
+    <hr/>
+    <address><a href="mailto:dameron@smi.stanford.edu">Olivier Dameron</a></address>
+<!-- Created: Fri Sep 17 11:46:58 PDT 2004 -->
+<!-- hhmts start -->
+Last modified: Tue Feb 22 19:50:49 PST 2005
+<!-- hhmts end -->
+      <p>
+<a href="doap.rdf" title="RDF Resource Description Framework"> <img border="0" src="http://www.w3.org/RDF/icons/rdf_metadata_button.40" alt="RDF Resource Description Framework Metadata Icon" /></a>
+The RDF <a href="http://usefulinc.com/doap">DOAP</a> description of this project is <a href="doap.rdf">doap.rdf</a></p>
+      <p>
+	<a href="http://validator.w3.org/check?uri=referer"><img
+           src="http://www.w3.org/Icons/valid-xhtml10"
+           alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+      </p>
+    </body>
+</html>
