@@ -12,7 +12,7 @@
     <doap:shortname>protegeScript</doap:shortname>
     <doap:homepage rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/index.html"/>
     <doap:created>2004-09-23</doap:created>
-    <doap:description>The script console is a tab for the Protégé ontology development platform. It provides a scripting environment for manipulating an ontology. It is compatible with both the traditionnal Protégé environment and with the OWL Plugin.</doap:description>
+    <doap:description>The script console is a tab for the Protege ontology development platform. It provides a scripting environment for manipulating an ontology. It is compatible with both the traditionnal Protege environment and with the OWL Plugin.</doap:description>
     <doap:wiki rdf:resource="http://protege.cim3.net/cgi-bin/wiki.pl?ProtegeScriptTab"/>
     <doap:screenshots rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/image/script06exampleRuby.png"/>
     <doap:programming-language>java</doap:programming-language>
