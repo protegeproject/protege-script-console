@@ -7,7 +7,7 @@
     <description>A Protege Tab providing a scripting console that supports BSF-compliant languages for interacting with an ontology.</description>
   <!-- set global properties for this build -->
   <property name="projectName" value="ProtegeScript"/>
-  <property name="version" value="0.15"/>
+  <property name="version" value="0.16"/>
   <property name="extendedProjectName" value="${projectName}-${version}"/>
   <property name="packageName" value="script"/>
   <!-- <property name="PROTEGE_HOME" location="/home/dameron/protege"/> -->
@@ -149,7 +149,8 @@
     <echo level="info">cd /tmp/jnk</echo>
     <echo level="info">svn checkout http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk .</echo>
     <echo level="info">rm edu.stanford.smi.protege.script/*</echo>
-    <echo level="info">cp ${release}/${extendedProjectName}.tar.gz edu.stanford.smi.protege.script/${projectName}.jar</echo>
+    <!-- <echo level="info">cp ${release}/${extendedProjectName}.tar.gz edu.stanford.smi.protege.script/${projectName}.jar</echo> -->
+    <echo level="info">cp ${jar}/${projectName}.jar edu.stanford.smi.protege.script/${projectName}.jar</echo>
     <echo level="info">cp ${lib}/*.jar edu.stanford.smi.protege.script/</echo>
     <echo level="info">cp ${info}/* edu.stanford.smi.protege.script/</echo>
     <echo level="info">svn status</echo>
@@ -165,40 +166,45 @@
   	<exec executable="mkdir">
  		<arg line="/tmp/jnk" />
 	</exec>
-  	<exec executable="cd">
+  	<!-- <exec executable="cd">
  		<arg line="/tmp/jnk" />
-	</exec>
+	</exec> -->
   	<exec executable="svn">
  		<arg line="checkout" />
  		<arg line="http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk" />
  		<arg line="/tmp/jnk" />
 	</exec>
   	<exec executable="rm">
- 		<arg line="edu.stanford.smi.protege.script/*" />
+ 		<arg line="/tmp/jnk/edu.stanford.smi.protege.script/*" />
 	</exec>
   	<exec executable="cp">
- 		<arg line="${release}/${extendedProjectName}.tar.gz" />
- 		<arg line="edu.stanford.smi.protege.script/${projectName}.jar" />
+ 		<!-- <arg line="${release}/${extendedProjectName}.tar.gz" /> -->
+                <arg line="${jar}/${projectName}.jar" />
+ 		<arg line="/tmp/jnk/edu.stanford.smi.protege.script/${projectName}.jar" />
 	</exec>
   	<exec executable="cp">
  		<arg line="${lib}/*.jar" />
- 		<arg line="edu.stanford.smi.protege.script/" />
+ 		<arg line="/tmp/jnk/edu.stanford.smi.protege.script/" />
 	</exec>
   	<exec executable="cp">
  		<arg line="${info}/*" />
- 		<arg line="edu.stanford.smi.protege.script/" />
+ 		<arg line="/tmp/jnk/edu.stanford.smi.protege.script/" />
 	</exec>
-  	<exec executable="svn">
+  	<exec executable="cp">
+ 		<arg line="build.xml" />
+ 		<arg line="/tmp/jnk/" />
+	</exec>
+  	<exec executable="svn" dir="/tmp/jnk">
  		<arg line="status" />
 	</exec>
-  	<exec executable="svn">
+  	<exec executable="svn" dir="/tmp/jnk">
  		<arg line="commit" />
  		<arg line="--username" />
 		<arg line="dameron" />
  		<arg line="-m" />
 		<arg line='"build ${version}"' />
 	</exec>
-  	<exec executable="svn">
+  	<exec executable="svn" dir="/tmp/jnk">
  		<arg line="copy" />
  		<arg line="--username" />
 		<arg line="dameron" />
@@ -207,9 +213,9 @@
  		<arg line="-m" />
 		<arg line='"Release ${version}"' />
 	</exec>
-  	<exec executable="cd">
+  	<!-- <exec executable="cd">
  		<arg line="-" />
-	</exec>
+	</exec> -->
   	<exec executable="rm">
  		<arg line="-rf" />
  		<arg line="/tmp/jnk" />
