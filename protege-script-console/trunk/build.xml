@@ -163,37 +163,23 @@
   </target>
 
   <target name="updateSubversionRepository" description="Updates the svn repository on smi-protege" depends="release, showUpdateSubversionRepository">
-  	<exec executable="mkdir">
- 		<arg line="/tmp/jnk" />
-	</exec>
-  	<!-- <exec executable="cd">
- 		<arg line="/tmp/jnk" />
-	</exec> -->
+        <mkdir dir="/tmp/jnk"/>
   	<exec executable="svn">
  		<arg line="checkout" />
  		<arg line="http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk" />
  		<arg line="/tmp/jnk" />
 	</exec>
-  	<exec executable="rm">
- 		<arg line="/tmp/jnk/edu.stanford.smi.protege.script/*" />
-	</exec>
-  	<exec executable="cp">
- 		<!-- <arg line="${release}/${extendedProjectName}.tar.gz" /> -->
-                <arg line="${jar}/${projectName}.jar" />
- 		<arg line="/tmp/jnk/edu.stanford.smi.protege.script/${projectName}.jar" />
-	</exec>
-  	<exec executable="cp">
- 		<arg line="${lib}/*.jar" />
- 		<arg line="/tmp/jnk/edu.stanford.smi.protege.script/" />
-	</exec>
-  	<exec executable="cp">
- 		<arg line="${info}/*" />
- 		<arg line="/tmp/jnk/edu.stanford.smi.protege.script/" />
-	</exec>
-  	<exec executable="cp">
- 		<arg line="build.xml" />
- 		<arg line="/tmp/jnk/" />
-	</exec>
+        <delete includeemptydirs="true">
+          <fileset dir="/tmp/jnk/edu.stanford.smi.protege.script" includes="**/*"/>
+        </delete>
+        <copy file="${jar}/${projectName}.jar" tofile="/tmp/jnk/edu.stanford.smi.protege.script/${projectName}.jar"/>
+        <copy todir="/tmp/jnk/edu.stanford.smi.protege.script/">
+          <fileset dir="${lib}" includes="*.jar"/>
+        </copy>
+        <copy todir="/tmp/jnk/edu.stanford.smi.protege.script/">
+          <fileset dir="${info}" includes="*"/>
+        </copy>
+        <copy file="build.xml" tofile="/tmp/jnk"/>
   	<exec executable="svn" dir="/tmp/jnk">
  		<arg line="status" />
 	</exec>
@@ -213,13 +199,7 @@
  		<arg line="-m" />
 		<arg line='"Release ${version}"' />
 	</exec>
-  	<!-- <exec executable="cd">
- 		<arg line="-" />
-	</exec> -->
-  	<exec executable="rm">
- 		<arg line="-rf" />
- 		<arg line="/tmp/jnk" />
-	</exec>
+        <delete dir="/tmp/jnk" includeemptydirs="true"/>
   	<echo level="info">DONE.</echo>
   </target>
 

@@ -17,7 +17,7 @@
     <doap:screenshots rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/image/script06exampleRuby.png"/>
     <doap:programming-language>java</doap:programming-language>
     <doap:license rdf:resource="http://usefulinc.com/doap/licenses/mpl"/>
-    <doap:download-page rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/download/ProtegeScript-0.15.tar.gz"/>
+    <doap:download-page rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/download/ProtegeScript-0.16.tar.gz"/>
 
     <doap:repository>
      <doap:SVNRepository>
@@ -36,8 +36,8 @@
     <doap:release>
       <doap:Version>
         <doap:branch>stable</doap:branch>
-        <doap:created>2005-02-22</doap:created>
-        <doap:revision>0.15</doap:revision>
+        <doap:created>2005-03-17</doap:created>
+        <doap:revision>0.16</doap:revision>
       </doap:Version>
     </doap:release>
 
