@@ -7,7 +7,7 @@
     <description>A Protege Tab providing a scripting console that supports BSF-compliant languages for interacting with an ontology.</description>
   <!-- set global properties for this build -->
   <property name="projectName" value="ProtegeScript"/>
-  <property name="version" value="0.16"/>
+  <property name="version" value="0.17"/>
   <property name="extendedProjectName" value="${projectName}-${version}"/>
   <property name="packageName" value="script"/>
   <!-- <property name="PROTEGE_HOME" location="/home/dameron/protege"/> -->
@@ -163,34 +163,27 @@
   </target>
 
   <target name="updateSubversionRepository" description="Updates the svn repository on smi-protege" depends="release, showUpdateSubversionRepository">
-        <mkdir dir="/tmp/jnk"/>
-  	<exec executable="svn">
- 		<arg line="checkout" />
- 		<arg line="http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk" />
- 		<arg line="/tmp/jnk" />
-	</exec>
         <delete includeemptydirs="true">
-          <fileset dir="/tmp/jnk/edu.stanford.smi.protege.script" includes="**/*"/>
+          <fileset dir="edu.stanford.smi.protege.script" includes="**/*"/>
         </delete>
-        <copy file="${jar}/${projectName}.jar" tofile="/tmp/jnk/edu.stanford.smi.protege.script/${projectName}.jar"/>
-        <copy todir="/tmp/jnk/edu.stanford.smi.protege.script/">
+        <copy file="${jar}/${projectName}.jar" tofile="edu.stanford.smi.protege.script/${projectName}.jar"/>
+        <copy todir="edu.stanford.smi.protege.script/">
           <fileset dir="${lib}" includes="*.jar"/>
         </copy>
-        <copy todir="/tmp/jnk/edu.stanford.smi.protege.script/">
+        <copy todir="edu.stanford.smi.protege.script/">
           <fileset dir="${info}" includes="*"/>
         </copy>
-        <copy file="build.xml" tofile="/tmp/jnk"/>
-  	<exec executable="svn" dir="/tmp/jnk">
+  	<exec executable="svn">
  		<arg line="status" />
 	</exec>
-  	<exec executable="svn" dir="/tmp/jnk">
+  	<exec executable="svn">
  		<arg line="commit" />
  		<arg line="--username" />
 		<arg line="dameron" />
  		<arg line="-m" />
 		<arg line='"build ${version}"' />
 	</exec>
-  	<exec executable="svn" dir="/tmp/jnk">
+  	<exec executable="svn">
  		<arg line="copy" />
  		<arg line="--username" />
 		<arg line="dameron" />
@@ -199,7 +192,6 @@
  		<arg line="-m" />
 		<arg line='"Release ${version}"' />
 	</exec>
-        <delete dir="/tmp/jnk" includeemptydirs="true"/>
   	<echo level="info">DONE.</echo>
   </target>
 
