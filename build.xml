@@ -208,6 +208,7 @@
  		<arg line="-" />
 	</exec>
   	<exec executable="rm">
+ 		<arg line="-rf" />
  		<arg line="/tmp/jnk" />
 	</exec>
   	<echo level="info">DONE.</echo>
