@@ -19,6 +19,13 @@
     <doap:license rdf:resource="http://usefulinc.com/doap/licenses/mpl"/>
     <doap:download-page rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/download/ProtegeScript-$version$.tar.gz"/>
 
+    <doap:repository>
+     <doap:SVNRepository>
+      <doap:location rdf:resource="http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk/" />
+      <doap:browse rdf:resource="http://smi-protege.stanford.edu/svn/protege-script-console/trunk/" />
+     </doap:SVNRepository>
+    </doap:repository>
+
     <doap:maintainer>
       <foaf:Person rdf:about="http://smi-web.stanford.edu/people/dameron/foaf.rdf#olivierDameron">
         <foaf:name>Olivier Dameron</foaf:name>
