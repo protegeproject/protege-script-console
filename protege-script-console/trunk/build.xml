@@ -144,7 +144,7 @@
 -->
   </target>
 
-  <target name="updateSubversionRepository" description="Updates the svn repository on smi-protege" depends="release">
+  <target name="showUpdateSubversionRepository" description="Passively shows the commands to invoke for updating the svn repository on smi-protege" depends="release">
     <echo level="info">mkdir /tmp/jnk</echo>
     <echo level="info">cd /tmp/jnk</echo>
     <echo level="info">svn checkout http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk .</echo>
@@ -159,6 +159,9 @@
     <echo level="info">svn copy --username dameron http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk http://smi-protege.stanford.edu/repos/protege/protege-script-console/tags/build-${version} -m "Release ${version}"</echo>
     <echo level="info">cd -</echo>
     <echo level="info">rm -rf /tmp/jnk</echo>
+  </target>
+
+  <target name="updateSubversionRepository" description="Updates the svn repository on smi-protege" depends="release, showUpdateSubversionRepository">
   	<exec executable="mkdir">
  		<arg line="/tmp/jnk" />
 	</exec>
@@ -216,6 +219,7 @@
 
   <target name="help" description="Help" >
     <echo>ant updateWebSite: prepares a new release and upload it to the web site</echo>
+    <echo>ant showUpdateSubversionRepository: Passively shows the commands to invoke for updating the svn repository on smi-protege</echo>
     <echo>ant updateSubversionRepository: Updates the svn repository on smi-protege</echo>
     <echo>ant release: prepares a clean new release (generates jar files, web pages, etc.)</echo>
     <echo>ant jar: prepares the bin, doc and src jar files in ${jar} the directory</echo>
