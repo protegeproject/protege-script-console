@@ -7,7 +7,7 @@
     <description>A Protege Tab providing a scripting console that supports BSF-compliant languages for interacting with an ontology.</description>
   <!-- set global properties for this build -->
   <property name="projectName" value="ProtegeScript"/>
-  <property name="version" value="0.14"/>
+  <property name="version" value="0.15"/>
   <property name="extendedProjectName" value="${projectName}-${version}"/>
   <property name="packageName" value="script"/>
   <!-- <property name="PROTEGE_HOME" location="/home/dameron/protege"/> -->
@@ -159,6 +159,58 @@
     <echo level="info">svn copy --username dameron http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk http://smi-protege.stanford.edu/repos/protege/protege-script-console/tags/build-${version} -m "Release ${version}"</echo>
     <echo level="info">cd -</echo>
     <echo level="info">rm -rf /tmp/jnk</echo>
+  	<exec executable="mkdir">
+ 		<arg line="/tmp/jnk" />
+	</exec>
+  	<exec executable="cd">
+ 		<arg line="/tmp/jnk" />
+	</exec>
+  	<exec executable="svn">
+ 		<arg line="checkout" />
+ 		<arg line="http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk" />
+ 		<arg line="/tmp/jnk" />
+	</exec>
+  	<exec executable="rm">
+ 		<arg line="edu.stanford.smi.protege.script/*" />
+	</exec>
+  	<exec executable="cp">
+ 		<arg line="${release}/${extendedProjectName}.tar.gz" />
+ 		<arg line="edu.stanford.smi.protege.script/${projectName}.jar" />
+	</exec>
+  	<exec executable="cp">
+ 		<arg line="${lib}/*.jar" />
+ 		<arg line="edu.stanford.smi.protege.script/" />
+	</exec>
+  	<exec executable="cp">
+ 		<arg line="${info}/*" />
+ 		<arg line="edu.stanford.smi.protege.script/" />
+	</exec>
+  	<exec executable="svn">
+ 		<arg line="status" />
+	</exec>
+  	<exec executable="svn">
+ 		<arg line="commit" />
+ 		<arg line="--username" />
+		<arg line="dameron" />
+ 		<arg line="-m" />
+		<arg line='"build ${version}"' />
+	</exec>
+  	<exec executable="svn">
+ 		<arg line="copy" />
+ 		<arg line="--username" />
+		<arg line="dameron" />
+ 		<arg line="http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk" />
+		<arg line="http://smi-protege.stanford.edu/repos/protege/protege-script-console/tags/build-${version}" />
+ 		<arg line="-m" />
+		<arg line='"Release ${version}"' />
+	</exec>
+  	<exec executable="cd">
+ 		<arg line="-" />
+	</exec>
+  	<exec executable="rm">
+ 		<arg line="/tmp/jnk" />
+	</exec>
+  	<echo level="info">DONE.</echo>
   </target>
 
   <target name="help" description="Help" >

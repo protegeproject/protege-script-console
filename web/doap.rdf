@@ -12,12 +12,12 @@
     <doap:shortname>protegeScript</doap:shortname>
     <doap:homepage rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/index.html"/>
     <doap:created>2004-09-23</doap:created>
-    <doap:description>The script console is a tab for the Protégé ontology development platform. It provides a scripting environment for manipulating an ontology. It is compatible with both the traditionnal Protégé environment and with the OWL Plugin.</doap:description>
+    <doap:description>The script console is a tab for the Protege ontology development platform. It provides a scripting environment for manipulating an ontology. It is compatible with both the traditionnal Protege environment and with the OWL Plugin.</doap:description>
     <doap:wiki rdf:resource="http://protege.cim3.net/cgi-bin/wiki.pl?ProtegeScriptTab"/>
     <doap:screenshots rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/image/script06exampleRuby.png"/>
     <doap:programming-language>java</doap:programming-language>
     <doap:license rdf:resource="http://usefulinc.com/doap/licenses/mpl"/>
-    <doap:download-page rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/download/ProtegeScript-0.14.tar.gz"/>
+    <doap:download-page rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/download/ProtegeScript-0.15.tar.gz"/>
 
     <doap:repository>
      <doap:SVNRepository>
@@ -36,8 +36,8 @@
     <doap:release>
       <doap:Version>
         <doap:branch>stable</doap:branch>
-        <doap:created>2005-02-18</doap:created>
-        <doap:revision>0.14</doap:revision>
+        <doap:created>2005-02-22</doap:created>
+        <doap:revision>0.15</doap:revision>
       </doap:Version>
     </doap:release>
 
