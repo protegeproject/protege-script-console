@@ -173,6 +173,7 @@
         <copy todir="edu.stanford.smi.protege.script/">
           <fileset dir="${info}" includes="*"/>
         </copy>
+        <copy file="${web}/doap.rdf" tofile="edu.stanford.smi.protege.script/doap.rdf"/>
   	<exec executable="svn">
  		<arg line="status" />
 	</exec>
