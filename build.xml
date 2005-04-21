@@ -85,6 +85,13 @@
   </target>
 
   <target name="release" depends="all">
+    <!-- Generate the web page and the doap description -->
+    <copy file="${web}/template/template-doap.rdf" tofile="${web}/doap.rdf" overwrite="true" />
+    <replace file="${web}/doap.rdf" token="$version$" value="${version}" />
+    <replace file="${web}/doap.rdf" token="$doapCreationDate$" value="${doap.creation.date}" />
+    <copy file="${web}/template/template-index.html" tofile="${web}/index.html" overwrite="true" />
+    <replace file="${web}/index.html" token="$version$" value="${version}" />
+    <replace file="${web}/index.html" token="$modificationTimestamp$" value="${touch.time}" />
     <!-- Generate the zip files with our stuff and 3rd party jar files -->
     <mkdir dir="${release}/jnk"/>
     <copy file="./info/plugin.properties" todir="${release}/jnk"/>
@@ -95,6 +102,7 @@
 	<include name="*.jar"/>
       </fileset>
     </copy>
+    <copy file="${web}/doap.rdf" todir="${release}/jnk" overwrite="true" />
     <tar destfile="${release}/${extendedProjectName}.tar.gz" compression="gzip">
       <tarfileset dir="${release}/jnk" prefix="${pluginPrefix}">
 	<include name="**/*"/>
@@ -110,14 +118,9 @@
       <arg file="${release}/${projectName}.tar.gz"/>
     </exec>
     <delete dir="${release}/jnk"/>
-  	<copy file="${release}/${extendedProjectName}.tar.gz" todir="${localenv.PROTEGE_HOME}/plugins"/>
-  	<untar src="${localenv.PROTEGE_HOME}/plugins/${extendedProjectName}.tar.gz" dest="${localenv.PROTEGE_HOME}/plugins" compression="gzip"/>
-    <copy file="${web}/template/template-doap.rdf" tofile="${web}/doap.rdf" overwrite="true" />
-    <replace file="${web}/doap.rdf" token="$version$" value="${version}" />
-    <replace file="${web}/doap.rdf" token="$doapCreationDate$" value="${doap.creation.date}" />
-    <copy file="${web}/template/template-index.html" tofile="${web}/index.html" overwrite="true" />
-    <replace file="${web}/index.html" token="$version$" value="${version}" />
-    <replace file="${web}/index.html" token="$modificationTimestamp$" value="${touch.time}" />
+    <copy file="${release}/${extendedProjectName}.tar.gz" todir="${localenv.PROTEGE_HOME}/plugins"/>
+    <untar src="${localenv.PROTEGE_HOME}/plugins/${extendedProjectName}.tar.gz" dest="${localenv.PROTEGE_HOME}/plugins" compression="gzip"/>
+
   </target>
 
   <target name="clean" description="clean up" >
