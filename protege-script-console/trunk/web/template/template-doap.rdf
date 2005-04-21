@@ -4,6 +4,7 @@
          xmlns:doap="http://usefulinc.com/ns/doap#" 
          xmlns:foaf="http://xmlns.com/foaf/0.1/" 
          xmlns:admin="http://webns.net/mvcb/" 
+         xmlns:dod="http://smi.stanford.edu/people/dameron/ontology/rdf/doap-od.rdf#"
 	 xmlns="http://smi-web.stanford.edu/people/dameron/protegeScript/doap.rdf#"
 	 xml:base="http://smi-web.stanford.edu/people/dameron/protegeScript/doap.rdf"
          xml:lang="en">
@@ -18,7 +19,7 @@
     <doap:screenshots rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/image/script06exampleRuby.png"/>
     <doap:programming-language>java</doap:programming-language>
     <doap:license rdf:resource="http://usefulinc.com/doap/licenses/mpl"/>
-    <doap:download-page rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/download/ProtegeScript-$version$.tar.gz"/>
+    <doap:download-page rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/download/ProtegeScript-$version$.tar.gz" dod:content-type="application/x-tgz"/>
 
     <doap:repository>
      <doap:SVNRepository>
