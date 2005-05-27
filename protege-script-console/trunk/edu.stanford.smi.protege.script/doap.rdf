@@ -20,6 +20,7 @@
     <doap:programming-language>java</doap:programming-language>
     <doap:license rdf:resource="http://usefulinc.com/doap/licenses/mpl"/>
     <doap:download-page rdf:resource="http://smi-web.stanford.edu/people/dameron/protegeScript/download/ProtegeScript-0.20.tar.gz" dod:content-type="application/x-tgz"/>
+    <dod:requires rdf:resource="http://protege.stanford.edu/doap/doap.rdf#protege-project" />
 
     <doap:repository>
      <doap:SVNRepository>
@@ -36,9 +37,9 @@
     </doap:maintainer>
 
     <doap:release>
-      <doap:Version>
+      <doap:Version rdf:ID="protegeScript-stableVersion">
         <doap:branch>stable</doap:branch>
-        <doap:created>2005-04-21</doap:created>
+        <doap:created>2005-05-27</doap:created>
         <doap:revision>0.20</doap:revision>
       </doap:Version>
     </doap:release>
