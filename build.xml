@@ -3,6 +3,7 @@
 
 <!-- <!DOCTYPE project SYSTEM "/usr/local/xml/dtd/ant/project.dtd" > -->
 <!-- Hello Jennifer -->
+<!-- Hello again -->
 
 <project name="Protege Scripting console" default="all" basedir=".">
     <description>A Protege Tab providing a scripting console that supports BSF-compliant languages for interacting with an ontology.</description>
