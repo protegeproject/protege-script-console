@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+
+<!-- <!DOCTYPE project SYSTEM "/usr/local/xml/dtd/ant/project.dtd" > -->
+<!-- Hello Jennifer -->
+<!-- Hello again -->
+
+<project name="Protege Scripting console" default="all" basedir=".">
+    <description>A Protege Tab providing a scripting console that supports BSF-compliant languages for interacting with an ontology.</description>
+  <!-- set global properties for this build -->
+  <property name="projectName" value="ProtegeScript"/>
+  <property name="version" value="0.20"/>
+  <property name="extendedProjectName" value="${projectName}-${version}"/>
+  <property name="packageName" value="script"/>
+  <!-- <property name="PROTEGE_HOME" location="/home/dameron/protege"/> -->
+  <property name="src" location="src"/>
+  <basename property="srcBase" file="${src}"/>
+  <property name="lib" location="lib"/>
+  <basename property="libBase" file="${lib}"/>
+  <property name="build" location="classes"/>
+  <property name="doc" location="doc"/>
+  <property name="jar" location="jar"/>
+  <property name="web" location="web"/>
+  <property name="info" location="info"/>
+  <property name="release" location="${web}/download"/>
+  <property name="pluginPrefix" value="edu.stanford.smi.protege.${packageName}"/>
+  <property name="webSiteDirectory" value="dameron@fonseca.stanford.edu:/home/dameron/webPage/protegeScript"/>
+  <property environment="localenv"/>
+
+  <path id="project.classpath">
+    <fileset dir="./lib">
+      <include name="*.jar"/>
+    </fileset>
+    <pathelement location="${localenv.PROTEGE_HOME}/protege.jar"/>
+    <fileset dir="${localenv.PROTEGE_HOME}/plugins">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp>
+      <format property="touch.time" pattern="EEE MMM dd HH:mm:ss zz yyyy" locale="en"/>
+      <format property="doap.creation.date" pattern="yyyy-MM-dd" locale="en"/>
+    </tstamp>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${lib}"/>
+    <mkdir dir="${jar}"/>
+    <mkdir dir="${doc}"/>
+    <mkdir dir="${release}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+
+  <target name="documentation" depends="init">
+    <!-- Document the java code from ${src} into ${doc} -->
+    <mkdir dir="${doc}"/>
+    <javadoc sourcepath="${src}" destdir="${doc}" packagenames="${packageName}" version="true" author="true" windowtitle="Protege Scripting Tab v${version}">
+      <classpath refid="project.classpath"/>
+    </javadoc>
+</target>
+
+  <target name="jar" depends="compile, documentation">
+    <delete>
+      <fileset dir="${jar}" includes="**"/>
+    </delete>
+    <!-- Generate the jar files from ${build}, ${src} and ${doc} -->
+    <jar jarfile="${jar}/${projectName}.jar" basedir="${build}" manifest="${src}/META-INF/MANIFEST.MF"/>
+    <jar jarfile="${jar}/${extendedProjectName}-src.jar">
+      <fileset dir="." includes="${srcBase}/**" />
+      <fileset dir="." includes="${info}/**" />
+      <fileset file="build.xml" />
+    </jar>
+    <jar jarfile="${jar}/${projectName}-thirdParty.jar">
+      <fileset dir="." includes="${libBase}/**" />
+    </jar>
+    <jar jarfile="${jar}/${extendedProjectName}-doc.jar" basedir="${doc}"/>
+  </target>
+
+  <target name="all" depends="compile,documentation,jar">
+  </target>
+
+  <target name="release" depends="all">
+    <!-- Generate the web page and the doap description -->
+    <copy file="${web}/template/template-doap.rdf" tofile="${web}/doap.rdf" overwrite="true" />
+    <replace file="${web}/doap.rdf" token="$version$" value="${version}" />
+    <replace file="${web}/doap.rdf" token="$doapCreationDate$" value="${doap.creation.date}" />
+    <copy file="${web}/template/template-index.html" tofile="${web}/index.html" overwrite="true" />
+    <replace file="${web}/index.html" token="$version$" value="${version}" />
+    <replace file="${web}/index.html" token="$modificationTimestamp$" value="${touch.time}" />
+    <!-- Generate the zip files with our stuff and 3rd party jar files -->
+    <mkdir dir="${release}/jnk"/>
+    <copy file="./info/plugin.properties" todir="${release}/jnk"/>
+    <copy file="./info/readme" todir="${release}/jnk"/>
+    <copy file="${jar}/${projectName}.jar" todir="${release}/jnk"/>
+    <copy todir="${release}/jnk">
+      <fileset dir="./lib">
+	<include name="*.jar"/>
+      </fileset>
+    </copy>
+    <copy file="${web}/doap.rdf" todir="${release}/jnk" overwrite="true" />
+    <tar destfile="${release}/${extendedProjectName}.tar.gz" compression="gzip">
+      <tarfileset dir="${release}/jnk" prefix="${pluginPrefix}">
+	<include name="**/*"/>
+      </tarfileset>
+    </tar>
+    <copy file="${jar}/${extendedProjectName}-src.jar" todir="${release}"/>
+    <copy file="${jar}/${projectName}-thirdParty.jar" todir="${release}"/>
+    <copy file="${jar}/${extendedProjectName}-doc.jar" todir="${release}"/>
+    <exec executable="ln" dir="${release}">
+      <arg value="-s"/>
+      <arg value="-f"/>
+      <arg file="${release}/${extendedProjectName}.tar.gz"/>
+      <arg file="${release}/${projectName}.tar.gz"/>
+    </exec>
+    <delete dir="${release}/jnk"/>
+    <copy file="${release}/${extendedProjectName}.tar.gz" todir="${localenv.PROTEGE_HOME}/plugins"/>
+    <untar src="${localenv.PROTEGE_HOME}/plugins/${extendedProjectName}.tar.gz" dest="${localenv.PROTEGE_HOME}/plugins" compression="gzip"/>
+
+  </target>
+
+  <target name="clean" description="clean up" >
+    <!-- Delete the ${build}, ${doc}, and ${jar} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${doc}"/>
+    <delete dir="${jar}"/>
+  </target>
+
+  <target name="updateWebSite" description="Update the web site" depends="release">
+    <exec executable="scp" dir="${web}">
+      <arg line="index.html doap.rdf" />
+      <arg line="${webSiteDirectory}" />
+    </exec>
+    <exec executable="scp" dir="${release}">
+      <!-- <arg line="ProtegeScript-${version}*" /> -->
+      <arg line="${extendedProjectName}.tar.gz ${extendedProjectName}-src.jar ${projectName}-thirdParty.jar ${extendedProjectName}-doc.jar" />
+      <arg line="${webSiteDirectory}/download" />
+    </exec>
+<!--
+    <echo>scp ${web}/index.html ${webSiteDirectory}</echo>
+    <echo>scp ${web}/doap.rdf ${webSiteDirectory}</echo>
+    <echo>scp ${release}/ProtegeScript-${version}* ${webSiteDirectory}/download</echo>
+-->
+  </target>
+
+  <target name="showUpdateSubversionRepository" description="Passively shows the commands to invoke for updating the svn repository on smi-protege" depends="release">
+    <echo level="info">mkdir /tmp/jnk</echo>
+    <echo level="info">cd /tmp/jnk</echo>
+    <echo level="info">svn checkout http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk .</echo>
+    <echo level="info">rm edu.stanford.smi.protege.script/*</echo>
+    <!-- <echo level="info">cp ${release}/${extendedProjectName}.tar.gz edu.stanford.smi.protege.script/${projectName}.jar</echo> -->
+    <echo level="info">cp ${jar}/${projectName}.jar edu.stanford.smi.protege.script/${projectName}.jar</echo>
+    <echo level="info">cp ${lib}/*.jar edu.stanford.smi.protege.script/</echo>
+    <echo level="info">cp ${info}/* edu.stanford.smi.protege.script/</echo>
+    <echo level="info">svn status</echo>
+    <echo level="info">svn add ???</echo>
+    <echo level="info">svn del ???</echo>
+    <echo level="info">svn commit --username dameron -m "build ${version}"</echo>
+    <echo level="info">svn copy --username dameron http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk http://smi-protege.stanford.edu/repos/protege/protege-script-console/tags/build-${version} -m "Release ${version}"</echo>
+    <echo level="info">cd -</echo>
+    <echo level="info">rm -rf /tmp/jnk</echo>
+  </target>
+
+  <target name="updateSubversionRepository" description="Updates the svn repository on smi-protege" depends="release, showUpdateSubversionRepository">
+        <delete includeemptydirs="true">
+          <fileset dir="edu.stanford.smi.protege.script" includes="**/*"/>
+        </delete>
+        <copy file="${jar}/${projectName}.jar" tofile="edu.stanford.smi.protege.script/${projectName}.jar"/>
+        <copy todir="edu.stanford.smi.protege.script/">
+          <fileset dir="${lib}" includes="*.jar"/>
+        </copy>
+        <copy todir="edu.stanford.smi.protege.script/">
+          <fileset dir="${info}" includes="*"/>
+        </copy>
+        <copy file="${web}/doap.rdf" tofile="edu.stanford.smi.protege.script/doap.rdf"/>
+  	<exec executable="svn">
+ 		<arg line="status" />
+	</exec>
+  	<exec executable="svn">
+ 		<arg line="commit" />
+ 		<arg line="--username" />
+		<arg line="dameron" />
+ 		<arg line="-m" />
+		<arg line='"build ${version}"' />
+	</exec>
+  	<exec executable="svn">
+ 		<arg line="copy" />
+ 		<arg line="--username" />
+		<arg line="dameron" />
+ 		<arg line="http://smi-protege.stanford.edu/repos/protege/protege-script-console/trunk" />
+		<arg line="http://smi-protege.stanford.edu/repos/protege/protege-script-console/tags/build-${version}" />
+ 		<arg line="-m" />
+		<arg line='"Release ${version}"' />
+	</exec>
+  	<echo level="info">DONE.</echo>
+  </target>
+
+  <target name="help" description="Help" >
+    <echo>ant updateWebSite: prepares a new release and upload it to the web site</echo>
+    <echo>ant showUpdateSubversionRepository: Passively shows the commands to invoke for updating the svn repository on smi-protege</echo>
+    <echo>ant updateSubversionRepository: Updates the svn repository on smi-protege</echo>
+    <echo>ant release: prepares a clean new release (generates jar files, web pages, etc.)</echo>
+    <echo>ant jar: prepares the bin, doc and src jar files in ${jar} the directory</echo>
+    <echo>ant documentation: genereates the javadocs in the ${doc} directory</echo>
+    <echo>ant compile: compiles the files found in ${src} into ${build}</echo>
+  </target>
+
+</project>
