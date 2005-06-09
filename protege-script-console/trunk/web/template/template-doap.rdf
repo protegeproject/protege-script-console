@@ -4,7 +4,7 @@
          xmlns:doap="http://usefulinc.com/ns/doap#" 
          xmlns:foaf="http://xmlns.com/foaf/0.1/" 
          xmlns:admin="http://webns.net/mvcb/" 
-         xmlns:dod="http://smi.stanford.edu/people/dameron/ontology/rdf/doap-od.rdf#"
+         xmlns:dod="http://smi-web.stanford.edu/people/dameron/ontology/rdf/doap-od.rdf#"
 	 xmlns="http://smi-web.stanford.edu/people/dameron/protegeScript/doap.rdf#"
 	 xml:base="http://smi-web.stanford.edu/people/dameron/protegeScript/doap.rdf"
          xml:lang="en">
