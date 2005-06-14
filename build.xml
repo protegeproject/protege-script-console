@@ -2,14 +2,13 @@
 
 
 <!-- <!DOCTYPE project SYSTEM "/usr/local/xml/dtd/ant/project.dtd" > -->
-<!-- Hello Jennifer -->
-<!-- Hello again -->
+
 
 <project name="Protege Scripting console" default="all" basedir=".">
     <description>A Protege Tab providing a scripting console that supports BSF-compliant languages for interacting with an ontology.</description>
   <!-- set global properties for this build -->
   <property name="projectName" value="ProtegeScript"/>
-  <property name="version" value="0.25"/>
+  <property name="version" value="0.26"/>
   <property name="extendedProjectName" value="${projectName}-${version}"/>
   <property name="packageName" value="script"/>
   <!-- <property name="PROTEGE_HOME" location="/home/dameron/protege"/> -->
@@ -37,7 +36,18 @@
     </fileset>
   </path>
 
-  <target name="init">
+  <target name="isValidJVM">
+    <condition property="correctJVM">
+      <equals arg1="${ant.java.version}" arg2="1.4"/>
+    </condition>
+  </target>
+
+  <target name="jvmCheckAlert" unless="correctJVM" depends="isValidJVM">
+    <echo message="JVM Version: ${ant.java.version}" />
+    <echo>The current version of the JVM is NOT valid!</echo>
+  </target>
+
+  <target name="init" depends="isValidJVM,jvmCheckAlert">
     <!-- Create the time stamp -->
     <tstamp>
       <format property="touch.time" pattern="EEE MMM dd HH:mm:ss zz yyyy" locale="en"/>
@@ -51,14 +61,14 @@
     <mkdir dir="${release}"/>
   </target>
 
-  <target name="compile" depends="init" description="compile the source " >
+  <target name="compile" depends="init,jvmCheckAlert" if="correctJVM" description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${src}" destdir="${build}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
 
-  <target name="documentation" depends="init">
+  <target name="documentation" depends="init" if="correctJVM">
     <!-- Document the java code from ${src} into ${doc} -->
     <mkdir dir="${doc}"/>
     <javadoc sourcepath="${src}" destdir="${doc}" packagenames="${packageName}" version="true" author="true" windowtitle="Protege Scripting Tab v${version}">
@@ -66,7 +76,7 @@
     </javadoc>
 </target>
 
-  <target name="jar" depends="compile, documentation">
+  <target name="jar" depends="compile, documentation" if="correctJVM">
     <!-- Get rid of the previous stuff -->
     <delete>
       <fileset dir="${jar}" includes="**"/>
@@ -94,7 +104,7 @@
   <target name="all" depends="compile,documentation,jar">
   </target>
 
-  <target name="release" depends="all">
+  <target name="release" depends="all" if="correctJVM">
     <!-- Generate the web page and the doap description -->
     <copy file="${web}/template/template-doap.rdf" tofile="${web}/doap.rdf" overwrite="true" />
     <replace file="${web}/doap.rdf" token="$version$" value="${version}" />
@@ -140,7 +150,7 @@
     <delete dir="${jar}"/>
   </target>
 
-  <target name="updateWebSite" description="Update the web site" depends="release">
+  <target name="updateWebSite" description="Update the web site" depends="release" if="correctJVM">
     <exec executable="scp" dir="${web}">
       <arg line="index.html doap.rdf" />
       <arg line="${webSiteDirectory}" />
@@ -175,7 +185,7 @@
     <echo level="info">rm -rf /tmp/jnk</echo>
   </target>
 
-  <target name="updateSubversionRepository" description="Updates the svn repository on smi-protege" depends="release, showUpdateSubversionRepository">
+  <target name="updateSubversionRepository" description="Updates the svn repository on smi-protege" depends="release, showUpdateSubversionRepository" if="correctJVM">
         <delete includeemptydirs="true">
           <fileset dir="edu.stanford.smi.protege.script" includes="**/*"/>
         </delete>
