@@ -38,7 +38,7 @@
 
   <target name="isValidJVM">
     <condition property="correctJVM">
-      <equals arg1="${ant.java.version}" arg2="1.4"/>
+      <equals arg1="${ant.java.version}" arg2="1.5"/>
     </condition>
   </target>
 
@@ -82,7 +82,7 @@
       <fileset dir="${jar}" includes="**"/>
     </delete>
     <!-- Regenerates additional stuff -->
-    <delete>
+    <delete failonerror="false">
       <fileset dir="${build}/${packageName}/icon" includes="**"/>
     </delete>
     <copy todir="${build}/${packageName}/icon">
