@@ -116,6 +116,7 @@
     <mkdir dir="${release}/jnk"/>
     <copy file="./info/plugin.properties" todir="${release}/jnk"/>
     <copy file="./info/readme" todir="${release}/jnk"/>
+    <copy file="./info/about_script_console.html" todir="${release}/jnk"/>
     <copy file="${jar}/${projectName}.jar" todir="${release}/jnk"/>
     <copy todir="${release}/jnk">
       <fileset dir="./lib">
