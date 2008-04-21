@@ -39,7 +39,7 @@
     <doap:release>
       <doap:Version rdf:ID="protegeScript-stableVersion">
         <doap:branch>stable</doap:branch>
-        <doap:created>2005-06-13</doap:created>
+        <doap:created>2008-04-21</doap:created>
         <doap:revision>0.26</doap:revision>
       </doap:Version>
     </doap:release>
