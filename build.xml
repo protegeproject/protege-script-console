@@ -230,4 +230,14 @@
     <echo>ant compile: compiles the files found in ${src} into ${build}</echo>
   </target>
 
+  <!-- standard protege ant targets -->
+
+  <target name="update" depends="jar">
+      <copy file="${jar}/${projectName}.jar"
+            tofile="${localenv.PROTEGE_HOME}/plugins/edu.stanford.smi.protege.script/${projectName}.jar"/>
+  </target>
+
+  <target name="install" depends="release"/>
+
+
 </project>
