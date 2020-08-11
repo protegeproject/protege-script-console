@@ -46,7 +46,7 @@ import java.io.PrintStream;
 
 /**
  * 
- * Provides a PrintStream for writting on a ScriptConsole.
+ * Provides a PrintStream for writing on a ScriptConsole.
  * Useful for redirecting System.out to the script console.
  * 
  * @author Olivier Dameron (dameron@smi.stanford.edu)

@@ -43,16 +43,49 @@
 
 package script;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
+import java.io.Reader;
 import java.util.Vector;
-import javax.swing.*;
-import javax.swing.text.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.Icon;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 import org.apache.bsf.BSFManager;
 
 import edu.stanford.smi.protege.util.DirectoryClassLoader;
+import edu.stanford.smi.protege.util.Log;
 
 /**
  * 
@@ -67,8 +100,9 @@ import edu.stanford.smi.protege.util.DirectoryClassLoader;
  * @author Olivier Dameron (dameron@smi.stanford.edu), Patrick Niemeyer (pat@pat.net)
  *
  */
-public class ScriptConsole extends JScrollPane implements KeyListener,MouseListener, ActionListener, Runnable {
+public class ScriptConsole extends JScrollPane implements KeyListener, MouseListener, ActionListener, Runnable {
 
+	private static transient Logger log = Log.getLogger(ScriptConsole.class);
 	private final static String	CUT = "Cut";
 	private final static String	COPY = "Copy";
 	private final static String	PASTE =	"Paste";
@@ -182,7 +216,7 @@ public class ScriptConsole extends JScrollPane implements KeyListener,MouseListe
 		requestFocus();
 		
 		setStyle(Color.red);
-		println("Welcome to the Protégé shell");
+		println("Welcome to the Protege shell");
 		setStyle(Color.black);
 		
 		addPrompt();
@@ -198,7 +232,7 @@ public class ScriptConsole extends JScrollPane implements KeyListener,MouseListe
 			myManager = ((BSFManager)myClass.newInstance());
 		}
 		catch (Exception e) {
-			System.out.println("BSFManager not found in custom class loader");
+			log.log(Level.SEVERE, "BSFManager not found in custom class loader", e);
 		}
 	}
 	
@@ -509,7 +543,7 @@ public class ScriptConsole extends JScrollPane implements KeyListener,MouseListe
 			s =	text.getText(cmdStart, textLength() - cmdStart);
 		} catch	(BadLocationException e) {
 			// should not happen
-			System.out.println("Internal JConsole Error: "+e);
+			log.log(Level.SEVERE, "Internal JConsole Error", e);
 		}
 		return s;
 	}
@@ -986,10 +1020,53 @@ public class ScriptConsole extends JScrollPane implements KeyListener,MouseListe
 			//myClass.getMethod("declareBean", argTypesArray).invoke(myManager, argArray);
 		}
 		catch(Exception e){
-			System.out.println("??? ScriptConsole::declareObject(" + varName + ")... EXCEPTION");
-			e.printStackTrace();
+			log.log(Level.SEVERE, "??? ScriptConsole::declareObject(" + varName + ")... EXCEPTION", e);
 		}
 	}
 	
+	public void dispose() {
+		if (manager != null) {
+			manager.terminate();
+		}
+		if (myManager != null) {
+			myManager.terminate();
+		}
+		
+		try {
+			outPipe.close();
+		} catch (Exception e) {
+			// ignore
+		}
+		
+		try {
+			inPipe.close();
+		} catch (Exception e) {
+			// ignore
+		}
+		
+		try {
+			in.close();
+		} catch (Exception e) {
+			// ignore
+		}
+		
+		try {
+			out.close();
+		} catch (Exception e) {
+			// ignore
+		}
+		
+		try {
+			defaultSystemOutput.close();
+		} catch (Exception e) {
+			// ignore
+		}
+		
+		try {
+			consoleSystemOutput.close();
+		} catch (Exception e) {
+			// ignore
+		}
+	}
 
 }
