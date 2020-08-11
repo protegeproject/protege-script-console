@@ -40,19 +40,20 @@
 
 package script;
 
-import edu.stanford.smi.protege.Application;
-import edu.stanford.smi.protege.model.KnowledgeBase;
-import edu.stanford.smi.protege.widget.AbstractTabWidget;
-
-import java.io.File;
 import java.awt.BorderLayout;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 //import java.io.PrintStream;
+import java.awt.event.FocusListener;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
+
+import edu.stanford.smi.protege.Application;
+import edu.stanford.smi.protege.model.KnowledgeBase;
+import edu.stanford.smi.protege.util.Log;
+import edu.stanford.smi.protege.widget.AbstractTabWidget;
 
 
 /**
@@ -63,7 +64,9 @@ import javax.swing.ImageIcon;
  *
  */
 public class ProtegeScriptTab extends AbstractTabWidget {
-
+	
+	private static transient Logger log = Log.getLogger(ProtegeScriptTab.class);
+			
 	protected KnowledgeBase kb;
 	protected Thread consoleThread;
 	protected ScriptConsole console;
@@ -86,13 +89,15 @@ public class ProtegeScriptTab extends AbstractTabWidget {
         //console.setScriptLanguage("jython");
         consoleThread = new Thread(console, "ConsoleThread");
         consoleThread.start();
+        
         String defaultScriptLanguage = "jython";
         try {
         	defaultScriptLanguage = System.getProperty("edu.stanford.smi.protege.script.defaultScriptLanguage", defaultScriptLanguage);
         }
         catch(Exception e) {
-        	e.printStackTrace();
+        	log.log(Level.SEVERE, e.getMessage(), e);
         }
+        
         console.setScriptLanguage(defaultScriptLanguage);
         
         LanguageSelectionListener languageListener = new LanguageSelectionListener(console);
@@ -119,7 +124,7 @@ public class ProtegeScriptTab extends AbstractTabWidget {
         	defaultScriptPath = System.getProperty("edu.stanford.smi.protege.script.defaultScriptPath", "protegeDefaultScript.py");
         }
         catch(Exception e) {
-        	e.printStackTrace();
+        	log.log(Level.WARNING, e.getMessage(), e);
         }
         File defaultCommandScript = new File(defaultScriptPath);
         if (defaultCommandScript.exists()) {
@@ -132,9 +137,6 @@ public class ProtegeScriptTab extends AbstractTabWidget {
     	console.giveFocusToConsole();
     }
     
-   
-    
-    
     /**
      * Main method to simplify invokation from within a Java IDE.
      * @param args  the command line arguments
@@ -143,6 +145,13 @@ public class ProtegeScriptTab extends AbstractTabWidget {
         Application.main(args);
     }
 
+    
+    @Override
+    public void dispose() {
+    	super.dispose();
+    	console.dispose();
+    	//consoleThread.
+    }
 }
 
 

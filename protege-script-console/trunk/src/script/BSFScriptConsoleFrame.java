@@ -41,9 +41,10 @@
 
 package script;
 
-import java.awt.Dimension;
 import java.awt.BorderLayout;
-import javax.swing.*;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
 
 /**
  * 
@@ -60,7 +61,6 @@ import javax.swing.*;
  */
 public class BSFScriptConsoleFrame extends JFrame {
 	
-	private JFrame mainFrame;
 	private ScriptConsole consolePane;
 	private RadioSelectorPane languagePane;
 
