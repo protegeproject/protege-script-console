@@ -621,7 +621,7 @@ public class ScriptConsole extends JScrollPane implements KeyListener, MouseList
 				addLineToExecutionBuffer(lineOrig);
 			}
 			catch (Exception e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage(), e);
 			}
 			//text.repaint();
 		// Restoring default black color
@@ -669,7 +669,7 @@ public class ScriptConsole extends JScrollPane implements KeyListener, MouseList
 			//myClass.getMethod("exec", argTypesArray).invoke(myManager, argArray);
 		} 
 		catch (Exception e) {
-			e.printStackTrace();
+			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		captureSystemOut(false);
 	}
